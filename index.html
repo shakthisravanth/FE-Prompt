@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompts</title>
+<script>
+(function(){
+  let saved;
+  try{saved=localStorage.getItem('prompt-page-theme');}catch(e){}
+  const theme=saved==='light'||saved==='dark'?saved:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  document.documentElement.dataset.theme=theme;
+})();
+</script>
+<style>
+:root{color-scheme:light;--ink:#111;--muted:#626262;--line:#dedede;--paper:#fff;--soft:#f7f7f7;--prompt-ink:#171717;--button-bg:#111;--button-ink:#fff;--button-hover:#303030;--button-active:#000;--focus:#777}
+:root[data-theme="dark"]{color-scheme:dark;--ink:#f1f1f1;--muted:#b7b7b7;--line:#383838;--paper:#111;--soft:#1d1d1d;--prompt-ink:#e7e7e7;--button-bg:#f1f1f1;--button-ink:#111;--button-hover:#d7d7d7;--button-active:#c5c5c5;--focus:#aaa}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.65;font-size:15px}
+main{max-width:920px;margin:0 auto;padding:24px 28px 48px;overflow-wrap:anywhere}
+.theme-control{max-width:920px;margin:0 auto;padding:16px 28px 0;display:flex;justify-content:flex-end}
+.theme-toggle{display:inline-flex;align-items:center;gap:7px;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:7px 11px;font:inherit;font-size:12px;line-height:1.5;font-weight:600;cursor:pointer}
+.theme-toggle:hover{background:var(--soft)}
+.theme-toggle:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.theme-toggle svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.theme-toggle .sun,:root[data-theme="dark"] .theme-toggle .moon{display:none}
+:root[data-theme="dark"] .theme-toggle .sun{display:block}
+p{margin:0 0 14px}
+h2{font-size:18px;font-weight:700;line-height:1.4;margin:28px 0 10px;letter-spacing:-.18px}
+h3{font-size:16px;font-weight:700;line-height:1.4;margin:22px 0 9px}
+.prompt{margin:24px 0}
+.prompt h2{margin:0 0 10px}
+.prompt-box{background:var(--soft);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.copy-row{display:flex;justify-content:flex-end;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--paper)}
+.copy{font:inherit;font-size:12px;line-height:1.5;font-weight:700;padding:7px 12px;min-width:108px;border-radius:4px;background:var(--button-bg);color:var(--button-ink);border:1px solid var(--button-bg);cursor:pointer}
+.copy:hover{background:var(--button-hover)}.copy:active{background:var(--button-active)}.copy[data-copied="true"]{background:var(--paper);color:var(--ink);border-color:var(--line)}
+.copy:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.prompt-text,.commands{font:inherit;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text;-webkit-user-select:text;margin:0;padding:15px 16px;background:var(--soft);color:var(--prompt-ink)}
+.prompt-text{line-height:1.72}
+.commands{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px;border:1px solid var(--line);border-radius:6px;margin:12px 0 16px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+@media(max-width:640px){.theme-control{padding:12px 16px 0}main{padding:18px 16px 32px;font-size:14px}.prompt h2{font-size:16px}.prompt-text{padding:13px 14px}.copy-row{padding:8px 10px}h2{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="theme-control">
+  <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark theme">
+    <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13.35A9 9 0 0 1 10.65 3.1 9 9 0 1 0 20.9 13.35Z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M19.07 4.93l-1.42 1.42m-11.3 11.3-1.42 1.42"/></svg>
+    <span id="theme-label">Dark mode</span>
+  </button>
+</div>
+<main id="content"></main>
+<div class="sr-only" id="announcement" role="status" aria-live="polite"></div>
+<noscript><p style="padding:18px">Enable JavaScript to open your assigned prompt page.</p></noscript>
+<template id="st-4.1">
+<p>Create the separate frontend project and build the login and registration screens.</p><p>Copy and submit each prompt separately, in order, in the same Antigravity project chat. Wait for each file edit to complete before sending the next prompt. The running frontend normally refreshes automatically; do not restart it between prompts.</p><h3>Create a new frontend folder</h3><p>On GitHub, create an empty repository named <strong>placement-management-frontend</strong> (no generated README). Copy its clone URL. Clone it into your normal projects location, outside the existing backend folder:</p><pre class="commands"><code>git clone https://github.com/YOUR-USERNAME/placement-management-frontend.git</code></pre><p>This creates the new frontend project folder. Open that folder using Antigravity → Open Folder. Keep the backend repository separate. Using your file explorer, copy only API-CONTRACT.md from the completed backend into this new folder. Do not copy Java files or placement-local.properties. Now use Prompt 1.</p>
+<section class="prompt"><h2>Prompt 1 — Create the React starter application</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 1: Create the React starter application">Copy Prompt</button></div><pre class="prompt-text">Create a React application with JavaScript and Vite directly inside my currently opened empty frontend project folder. Use basic React, HTML, CSS and JavaScript. Create a simple home screen titled &quot;Placement Management Portal&quot; with a clean navy, white and teal theme.
+
+Set up the required React/Vite dependencies and start the local frontend using your tools. Use localhost:5173 with strict port and no remote exposure. Add a graphical Start Frontend task if supported. Keep package.json, package-lock.json and source files; ignore node_modules, dist and local caches. Do not create a nested project or another Git repository. I should not type any setup or execution commands.
+
+Show me the local browser URL. If Node.js is missing, guide me to the official Node.js LTS graphical installer and then continue. Do not claim the preview works if you cannot start it. Do not add other screens yet.</pre></div></section>
+<section class="prompt"><h2>Prompt 2 — Build the login page</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 2: Build the login page">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Create a professional login page with email and password fields, a Show/Hide password button, a Sign In button and a Create Student Account link. Add required-field and email validation. Use responsive styling and clear error messages.
+
+Do not add a role selector or fake login. For now the Sign In button should explain that backend login will be connected later. Add a link to the registration page placeholder. Make the login screen available through navigation.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<section class="prompt"><h2>Prompt 3 — Build the registration page</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 3: Build the registration page">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Create a student registration page containing name, email, password, qualification, CGPA and backlogs. Qualification options: BE, BTECH, BCA, MCA, BSC, MSC, OTHER. Require all fields, valid email, password 12–128 characters, CGPA 0–10 and nonnegative integer backlogs. Name maximum 100 characters, email maximum 150.
+
+Add a Register button and a Back to Login link. Show inline validation but do not create accounts or simulate successful registration. Keep the login page working. Keep the registration form available for preview.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<h2>Check the completed screens</h2><p>Open the local frontend preview. Navigate between the login and registration screens, check required-field validation and mobile layout. Keep the frontend preview running for the next Learn.</p>
+</template>
+<template id="st-4.2">
+<p>Add the student screens one at a time to the existing React project. Use the same Antigravity chat and running frontend preview.</p><p>Copy and submit each prompt separately, in order, in the same Antigravity project chat. Wait for each file edit to complete before sending the next prompt. The running frontend normally refreshes automatically; do not restart it between prompts.</p>
+<section class="prompt"><h2>Prompt 1 — Student dashboard and navigation</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 1: Student dashboard and navigation">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Create a student portal layout with a responsive sidebar, top bar, and navigation for Dashboard, My Profile, Available Drives and My Applications. Add an obvious temporary link labelled &quot;Student UI preview — not signed in&quot; from the home screen so I can see this layout without real login.
+
+Build the dashboard with six metric cards: Open Drives, Total Applications, Applied, Shortlisted, Selected and Rejected. Use a dash until real counts arrive. Add links to the drives and application pages. Include a Logout control as a visual placeholder. Do not create fake users or statistics. Keep the dashboard available in the preview.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<section class="prompt"><h2>Prompt 2 — Student profile</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 2: Student profile">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Inside the Student Portal, create My Profile. Include read-only student ID and email, editable name, qualification, CGPA and backlogs. Use the same qualification options and academic validation as registration. Add Edit, Save and Cancel controls with sensible form state.
+
+Do not invent profile values or save anything. In preview, Save should explain that the backend is not connected. Keep navigation working.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<section class="prompt"><h2>Prompt 3 — Available drives and drive details</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 3: Available drives and drive details">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Create the Available Drives page with a search box and responsive drive cards designed for companyName, jobRole, requiredQualification, minCgpa, maxBacklogs and status. Add a View Details action for each future drive.
+
+Create a drive detail layout showing its company, job role and eligibility criteria, with space for Check Eligibility and Apply controls. Render an attractive empty state until actual drives are loaded. Provide a clearly labelled detail layout preview without inventing drive records. Keep the other student pages unchanged.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<section class="prompt"><h2>Prompt 4 — Eligibility and apply controls</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 4: Eligibility and apply controls">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Extend the existing drive detail screen with a Check Eligibility button and a result section that can display eligible=true or eligible=false and every reason returned by the backend later. Design the eligible and ineligible states as reusable components; show only a neutral waiting state before data exists.
+
+Add an Apply button with a confirmation dialog, pending state, and area for success or error messages. It must remain unavailable before live eligibility is confirmed. Design an Already Applied state for existing applications. Do not calculate official eligibility or simulate applying. Preserve the existing detail layout.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<section class="prompt"><h2>Prompt 5 — My applications</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 5: My applications">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Create My Applications with a responsive table or cards showing company name, job role, application date and status. Add a status filter for APPLIED, SHORTLISTED, SELECTED and REJECTED, a Refresh button, and a friendly no-applications state. Use readable text badges and a layout that also supports applications for closed drives.
+
+Keep this a read-only screen. No student status update. Leave the list empty until connected to the backend. Keep the student sidebar and all earlier pages working.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<h2>Check the completed screens</h2><p>Open the student UI preview and navigate through Dashboard, My Profile, Available Drives, drive details, eligibility and My Applications. Check the layout and form interactions. These are UI previews; data and login will be connected later.</p>
+</template>
+<template id="st-4.3">
+<p>Extend the existing frontend with the administrator screens without replacing the Student Portal.</p><p>Copy and submit each prompt separately, in order, in the same Antigravity project chat. Wait for each file edit to complete before sending the next prompt. The running frontend normally refreshes automatically; do not restart it between prompts.</p>
+<section class="prompt"><h2>Prompt 1 — Admin dashboard and navigation</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 1: Admin dashboard and navigation">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Create an Admin Portal layout using the same theme. Add Dashboard, Students and Recruitment Drives navigation and a Logout control. Add an obvious temporary &quot;Admin UI preview — not signed in&quot; link so I can view this layout.
+
+Build dashboard cards for total students, total/open/closed drives, total applications, applied, shortlisted, selected, rejected and distinct selected students. Add a drive-wise overview table with company, role, status and application counts. Use blank placeholders and empty states, not sample data. Keep the Student Portal intact.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<section class="prompt"><h2>Prompt 2 — Student management</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 2: Student management">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Create the admin Students page with search by name/email, a student list with ID, name, email, qualification, CGPA and backlogs, and a detail/edit view. Allow edits only to name, qualification, CGPA and backlogs; ID/email remain read-only. Reuse the profile validation and Save/Cancel controls.
+
+Provide empty list and detail-layout preview states, no fake student records and no simulated save. No delete, role or password management. Keep the student management screen available.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<section class="prompt"><h2>Prompt 3 — Recruitment drive listing and creation</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 3: Recruitment drive listing and creation">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Create the Recruitment Drives page with an all-drives list, OPEN/CLOSED filters and a Create Drive button. Add a creation form with company name, job role, required qualification, minimum CGPA and maximum backlogs. Company name/job role maximum 100 characters. Qualification options are BE, BTECH, BCA, MCA, BSC, MSC, OTHER and ANY. Require CGPA 0–10 and nonnegative integer backlogs.
+
+Add validation and Cancel/Create controls. Design the list to display status and requirements. Do not create fake drive records or report success before integration. Keep the creation form and empty list available.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<section class="prompt"><h2>Prompt 4 — Drive edit and close controls</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 4: Drive edit and close controls">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Extend Recruitment Drives with an Edit action and a Close Drive action for OPEN drives. Reuse the create form for editing, preserving the drive ID and status. Add a confirmation dialog explaining that closing stops new applications but retains existing applicants. CLOSED drives must remain visible with edit/close disabled.
+
+Prepare callback functions for later API integration. Do not delete or reopen drives and do not simulate saving or closing. Keep the earlier create form working. Keep the edit layout and closure dialog available for preview.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<section class="prompt"><h2>Prompt 5 — Applicant management and result controls</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 5: Applicant management and result controls">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend project. Keep the earlier screens and styling. Use basic React, HTML, CSS and JavaScript. Edit the files directly. Do not connect APIs yet.
+
+Add a View Applicants action to each recruitment drive, including CLOSED drives. Create an applicant page with application ID, student name/email, company, role, application date and current status. Add a student detail link and result controls.
+
+For APPLIED, offer SHORTLISTED or REJECTED. For SHORTLISTED, offer SELECTED or REJECTED. SELECTED and REJECTED are final. Add a result confirmation dialog. Do not change any result or invent applicant records. Keep an empty-state preview and preserve the existing admin pages.
+
+Keep the existing frontend preview running; only update the required files.</pre></div></section>
+<h2>Check the completed screens</h2><p>Open the admin UI preview and check all dashboard, student, drive and applicant layouts. Switch back to the student UI preview and check that its screens remain intact. Keep the frontend server running.</p>
+</template>
+<template id="st-4.4">
+<p>Connect the Student Portal to the existing backend. Open the separate Java backend in another IDE window and click Run above main() in PlacementManagementPortalApplication.java. Keep the React frontend project open and its local preview running. Use API-CONTRACT.md copied from the backend project.</p><p>Submit each prompt separately in the same Antigravity frontend project chat. Keep the backend and frontend running; the browser updates as React files change. Do not restart either application for each prompt. Restart the frontend once only if the Vite proxy configuration changes and a restart is needed.</p>
+<section class="prompt"><h2>Prompt 1 — Connect authentication</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 1: Connect authentication">Copy Prompt</button></div><pre class="prompt-text">Connect the existing login and registration pages to the Spring Boot backend. Read the copied API-CONTRACT.md in this frontend project.
+
+Configure Vite&#x27;s /api development proxy to http://localhost:8080 (ask me if the backend port is different), with changeOrigin:true and no path rewrite. Keep the frontend at localhost:5173. Create a shared fetch helper using relative /api paths and credentials:&quot;same-origin&quot;. Before each POST/PUT, get /api/auth/csrf and send its actual headerName and token with the write.
+
+Connect POST /api/auth/register (JSON), POST /api/auth/login (form-urlencoded email/password), GET /api/auth/me and POST /api/auth/logout (204). Refresh CSRF after login/logout. Route by the verified STUDENT or ADMIN role, not a selected role. On refresh restore the session through /me. Remove all temporary UI preview links and bypasses. Do not store passwords/tokens or fabricate login. On 401 show login or invalid credentials as appropriate; on 403 check session/token and offer retry, without replaying writes. Keep other pages unavailable until connected.
+
+Keep the running frontend server. If the proxy change requires a restart, perform it once using your tools. Let me test both logins and logout using my own credentials. Do not change the backend or ask me to type non-Git commands.</pre></div></section>
+<section class="prompt"><h2>Prompt 2 — Connect student profile and dashboard</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 2: Connect student profile and dashboard">Copy Prompt</button></div><pre class="prompt-text">Continue in the same frontend. Read API-CONTRACT.md and use the existing authenticated fetch helper.
+
+Connect GET /api/student/profile to My Profile. Save only name, qualification, cgpa and backlogs through PUT /api/student/profile. Keep ID/email read-only. Show validation and refresh the saved profile after success.
+
+Connect GET /api/student/dashboard to the six existing metric cards. Display actual counts, including zero. Refresh on page entry and after successful profile updates where relevant. Add loading, empty, error and retry states. Handle expired sessions using the existing helper. Do not change backend code or invent data.
+
+Keep the frontend and backend running. Preserve the login flow.</pre></div></section>
+<section class="prompt"><h2>Prompt 3 — Connect drives, eligibility and applications</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 3: Connect drives, eligibility and applications">Copy Prompt</button></div><pre class="prompt-text">Continue in this frontend. Use API-CONTRACT.md and the existing session/CSRF fetch helper.
+
+Connect GET /api/student/drives and GET /api/student/drives/{id} to the existing list/detail. Connect GET /api/student/drives/{id}/eligibility to the Check Eligibility button; display eligible and all reasons exactly as returned. Use GET /api/student/applications to detect already-applied drives and display application history.
+
+Connect POST /api/student/drives/{id}/apply with no body. Enable Apply only for an eligible, unapplied OPEN drive. Use real returned IDs, prevent duplicate clicks, show backend errors, refresh history/dashboard after success. On 404 refresh the drive list. Do not calculate eligibility yourself or reset an existing application. Keep closed-drive history visible.
+
+Keep both servers running. I will verify the screens with existing fictional records and confirm any new application. Do not modify the backend or invent endpoints.</pre></div></section>
+<h2>Check the connected Student Portal</h2><p>Use your existing student account. Verify login, dashboard, profile, open drive list and detail, eligibility and application history. If you need to apply to a new drive, use an eligible account and confirm the action. Verify logout. The student routes must use the authenticated account, and all results must match the API responses. Keep both applications running for the next Learn.</p>
+</template>
+<template id="st-4.5">
+<p>Connect the existing administrator screens to the backend. Use the same frontend chat, API-CONTRACT.md and running applications. Log out of the student account before signing in as admin.</p><p>Submit each prompt separately in the same Antigravity frontend project chat. Keep the backend and frontend running; the browser updates as React files change. Do not restart either application for each prompt. Restart the frontend once only if the Vite proxy configuration changes and a restart is needed.</p>
+<section class="prompt"><h2>Prompt 1 — Connect admin dashboard and student management</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 1: Connect admin dashboard and student management">Copy Prompt</button></div><pre class="prompt-text">Continue in the frontend with the verified ADMIN session and shared API helper. Read API-CONTRACT.md.
+
+Connect GET /api/admin/dashboard to the dashboard cards and driveOverview table. Distinguish selected applications from distinct selectedStudents.
+
+Connect GET /api/admin/students and its optional encoded search query. Use GET /api/admin/students/{id} for student details. Save only name, qualification, cgpa and backlogs through PUT /api/admin/students/{id}. Use the actual selected ID and keep email/ID unchanged. Show loading, validation, error and empty states; refresh the list after updates.
+
+Keep student screens and login unchanged. Do not create a new backend or add extra endpoints. Keep both applications running for the next prompt.</pre></div></section>
+<section class="prompt"><h2>Prompt 2 — Connect recruitment drive management</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 2: Connect recruitment drive management">Copy Prompt</button></div><pre class="prompt-text">Continue in the same React frontend. Read API-CONTRACT.md and use the existing authenticated fetch helper with the ADMIN session.
+
+Connect GET /api/admin/drives, POST /api/admin/drives and PUT /api/admin/drives/{id} to the existing list, create and edit forms. Edit from the selected list row; there is no admin GET drive-detail endpoint. Send only companyName, jobRole, requiredQualification, minCgpa and maxBacklogs as JSON. Close through PUT /api/admin/drives/{id}/close with no body. Keep CLOSED drives visible and disable their edit/close controls. Refresh the list and dashboard after successful writes.
+
+Handle 400, 401, 403, 404 and 409 using the shared API helper. Use returned IDs and actual saved responses. Do not add endpoints or fake records. Keep both applications running.</pre></div></section>
+<section class="prompt"><h2>Prompt 3 — Connect applicants and selection results</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 3: Connect applicants and selection results">Copy Prompt</button></div><pre class="prompt-text">Continue in the frontend using API-CONTRACT.md and the existing ADMIN session.
+
+Connect GET /api/admin/drives/{id}/applications to View Applicants for either OPEN or CLOSED drives. If student academic details are needed, use the existing GET /api/admin/students/{studentId} route. Display the returned application ID, studentName, studentEmail, companyName, jobRole, appliedAt and status.
+
+Connect PUT /api/admin/applications/{id}/status with JSON {&quot;status&quot;:&quot;SHORTLISTED&quot;} or SELECTED/REJECTED as allowed. Use the application ID, not the drive ID or student ID. Allow APPLIED to SHORTLISTED/REJECTED and SHORTLISTED to SELECTED/REJECTED. Final statuses are read-only. Ask for confirmation, prevent duplicate writes, show backend errors and refresh applicants/dashboard after success. Keep other screens and the running servers unchanged.</pre></div></section>
+<h2>Check the connected Admin Portal</h2><p>Sign in as the configured admin. Verify dashboard totals, student search and detail, permitted student updates, drive listing/create/edit/close, applicants and status changes. Use the existing fictional records and confirm any new data-changing action. Check the result in the student portal after switching accounts. Keep both applications running.</p>
+</template>
+<template id="st-4.6">
+<p>Use the running frontend and backend to complete the final checks. Copy and submit the following prompts individually.</p>
+<section class="prompt"><h2>Prompt 1 — Review the frontend implementation</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 1: Review the frontend implementation">Copy Prompt</button></div><pre class="prompt-text">Review my existing React frontend in this separate repository. Keep the two running applications and their existing API contract. Check login/session/CSRF, routing, forms, request field names, actual IDs, allowed status transitions, loading/empty/error states, duplicate submissions and mobile layout. Remove any remaining UI preview bypasses or fake data. Fix only frontend errors and preserve the backend. Do not create data automatically or claim a test passed unless performed.</pre></div></section>
+<section class="prompt"><h2>Prompt 2 — Verify the full placement workflow</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 2: Verify the full placement workflow">Copy Prompt</button></div><pre class="prompt-text">Guide me through one complete workflow using the running React frontend and Spring Boot backend. I enter all credentials and confirm each write.
+
+Verify student registration or existing login, profile, eligibility, apply and application history. Then verify admin login, dashboard, student search and updates, open drive creation/edit/close, applicants and selection results. Switch back to the student and confirm the updated result and counts. Use existing fictional records whenever possible; do not reset terminal statuses. Check wrong-role access, invalid inputs, logout and expired-session handling. Restart the backend once to check saved data persists, then sign in again. Report what actually passed and any remaining issues. Do not modify the Java project or add fake records.</pre></div></section>
+<section class="prompt"><h2>Prompt 3 — Prepare frontend documentation</h2><div class="prompt-box"><div class="copy-row"><button class="copy" type="button" aria-label="Copy prompt 3: Prepare frontend documentation">Copy Prompt</button></div><pre class="prompt-text">Update the README.md in my separate frontend repository with its frontend setup, compatible Node.js requirement, how to start the frontend using Antigravity, how to Run the separate Java backend from the IDE, the local URLs (normally localhost:5173 and localhost:8080), Vite /api proxy and actual verification results. Include the backend repository link if I provide it. Keep API-CONTRACT.md, React source, package.json and lockfile. Ensure .gitignore excludes node_modules, dist, local credentials, tokens and caches. Do not commit or push for me.</pre></div></section>
+<h2>Save the frontend repository</h2><p>After both portals work, open the Git terminal in the <strong>frontend project folder</strong>. Review the remote URL and staged files. Do not run these commands in the backend project.</p><pre class="commands"><code>git remote -v
+git status
+git branch -M main
+git add .
+git diff --cached
+git status
+git commit -m "Complete placement management frontend"
+git push -u origin main
+git status</code></pre><p>Confirm that the commit appears in your separate frontend GitHub repository. Keep the backend repository unchanged. Never push local passwords, session tokens, node_modules or dist.</p>
+</template>
+<script>
+'use strict';
+const content=document.getElementById('content');
+const announcement=document.getElementById('announcement');
+const themeToggle=document.getElementById('theme-toggle');
+const themeLabel=document.getElementById('theme-label');
+function syncThemeButton(){
+ const dark=document.documentElement.dataset.theme==='dark';
+ themeLabel.textContent=dark?'Light mode':'Dark mode';
+ themeToggle.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');
+}
+themeToggle.addEventListener('click',()=>{
+ const next=document.documentElement.dataset.theme==='dark'?'light':'dark';
+ document.documentElement.dataset.theme=next;
+ try{localStorage.setItem('prompt-page-theme',next);}catch(e){}
+ syncThemeButton();
+});
+syncThemeButton();
+function selectText(node){const range=document.createRange();range.selectNodeContents(node);const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);}
+function fallbackCopy(text){const area=document.createElement('textarea');area.value=text;area.setAttribute('readonly','');area.style.position='fixed';area.style.left='-9999px';area.style.top='0';area.style.fontSize='16px';document.body.append(area);area.focus();area.select();area.setSelectionRange(0,text.length);let ok=false;try{ok=document.execCommand('copy');}catch{}finally{area.remove();}return ok;}
+async function copyPrompt(text,button,block){let ok=false;try{if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);ok=true;}}catch{}if(!ok)ok=fallbackCopy(text);if(ok){button.textContent='Copied!';button.dataset.copied='true';announcement.textContent='Prompt copied.';button.focus({preventScroll:true});}else{selectText(block);button.textContent='Select & copy';announcement.textContent='Clipboard unavailable. Prompt selected; use your browser to copy.';}clearTimeout(button._reset);button._reset=setTimeout(()=>{button.textContent='Copy Prompt';delete button.dataset.copied;},2000);}
+function render(){
+ const route=location.hash.replace(/^#\/?/,'').replace(/\/$/,'') || 'st-4.1';
+ const page=/^st-4\.[1-6]$/.test(route)?document.getElementById(route):null;
+ content.replaceChildren();
+ announcement.textContent='';
+ if(!page){const p=document.createElement('p');p.textContent='Open the prompt page link shared with you.';content.append(p);return;}
+ content.append(page.content.cloneNode(true));
+ content.querySelectorAll('.prompt-box').forEach(box=>{const button=box.querySelector('.copy');const block=box.querySelector('.prompt-text');button.addEventListener('click',()=>copyPrompt(block.textContent,button,block));});
+ window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',render);
+render();
+</script>
+</body>
+</html>
